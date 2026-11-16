@@ -23,10 +23,17 @@ def mon_premier_dag():
         return stats["nb_patients"] * 2
 
     @task
+    def controler(n: int) -> int:
+        if n < 100:
+            raise ValueError("Le nombre de lignes est inférieur à 100")
+        print("Contrôle réussi")
+        return n
+
+    @task
     def charger(n: int):
         print(f"Chargement de {n} lignes")
 
-    charger(transformer(extraire()))
+    charger(controler(transformer(extraire())))
 
 
 mon_premier_dag()
